@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 9000
 
 spring:
   application:
@@ -9,19 +9,18 @@ spring:
     url: jdbc:postgresql://localhost:5432/auth_db
     username: auth
     password: auth
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     open-in-view: false
+
+  flyway:
+    enabled: true
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
-
-logging:
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId}] %-5level %logger{36} - %msg%n"
-
+        include: health,info
