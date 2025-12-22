@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.server.authorization.client.JdbcRegis
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -37,19 +38,21 @@ public class AuthorizationServerConfig {
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
                 new OAuth2AuthorizationServerConfigurer();
 
+        authorizationServerConfigurer
+                .oidc(Customizer.withDefaults());
+
         http
                 .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .csrf(csrf -> csrf.ignoringRequestMatchers(
                         authorizationServerConfigurer.getEndpointsMatcher()))
-                .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(Customizer.withDefaults())
-                )
-                .formLogin(Customizer.withDefaults()) // 🔥 BU ŞART
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .formLogin(Customizer.withDefaults())
                 .with(authorizationServerConfigurer, Customizer.withDefaults());
 
         return http.build();
     }
+
 
 
     @Bean
@@ -88,6 +91,12 @@ public class AuthorizationServerConfig {
         return repository;
     }
 
+    @Bean
+    public AuthorizationServerSettings authorizationServerSettings() {
+        return AuthorizationServerSettings.builder()
+                .issuer("http://localhost:9000")
+                .build();
+    }
 
     private RSAKey generateRsa() {
         KeyPair keyPair = generateRsaKey();
