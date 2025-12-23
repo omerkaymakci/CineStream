@@ -27,6 +27,13 @@ import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
 import java.util.UUID;
 
+//*
+//
+// http://localhost:9000/oauth2/authorize?response_type=code&client_id=cinestream-web&scope=openid%20profile&redirect_uri=http://localhost:3000/login/oauth2/code/cinestream
+//
+// *//
+
+
 @Configuration
 public class AuthorizationServerConfig {
 
