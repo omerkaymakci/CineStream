@@ -5,12 +5,11 @@ import com.cinestream.auth_service.dto.request.CreateUserRequest;
 import com.cinestream.auth_service.exception.ResourceNotFoundException;
 import com.cinestream.auth_service.repository.RoleRepository;
 import com.cinestream.auth_service.repository.UserRepository;
+import com.cinestream.auth_service.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -18,32 +17,40 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final RoleRepository roleRepository;
 
     public UserController(PasswordEncoder passwordEncoder,
-                          UserRepository userRepository,
+                          UserService userService,
                           RoleRepository roleRepository) {
         this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.roleRepository = roleRepository;
     }
 
-    @PostMapping("/createUser")
+    @PostMapping
     public User createUser(@RequestBody CreateUserRequest request) {
+        return userService.createUser(request);
+    }
 
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setEnabled(true);
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
 
-        user.setRoles(
-                request.getRoles().stream()
-                        .map(id -> roleRepository.findByName(id)
-                                .orElseThrow(() -> new ResourceNotFoundException(id)))
-                        .collect(Collectors.toSet())
-        );
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
 
-        return userRepository.save(user);
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id,
+                           @RequestBody CreateUserRequest request) {
+        return userService.updateUser(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
     }
 }
