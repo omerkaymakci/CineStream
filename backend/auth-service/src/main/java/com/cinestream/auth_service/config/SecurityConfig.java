@@ -17,19 +17,22 @@ public class SecurityConfig {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
-            throws Exception {
+    public SecurityFilterChain apiChain(HttpSecurity http) throws Exception {
 
         http
+                .securityMatcher("/admin/**", "/users/**")
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(sm ->
+                        sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/error", "/actuator/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
-                .logout(Customizer.withDefaults());
+                .oauth2ResourceServer(oauth -> oauth.jwt())
+                .formLogin(form -> form.disable()); // 🔥 KRİTİK
 
         return http.build();
     }
+
 
 
 
