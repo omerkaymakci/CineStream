@@ -39,26 +39,26 @@ public class AuthorizationServerConfig {
 
     @Bean
     @Order(1)
-    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
-            throws Exception {
+    public SecurityFilterChain authServerChain(HttpSecurity http) throws Exception {
 
-        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
+        OAuth2AuthorizationServerConfigurer authorizationServer =
                 new OAuth2AuthorizationServerConfigurer();
 
-        authorizationServerConfigurer
-                .oidc(Customizer.withDefaults());
+        authorizationServer.oidc(Customizer.withDefaults());
 
         http
-                .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .csrf(csrf -> csrf.ignoringRequestMatchers(
-                        authorizationServerConfigurer.getEndpointsMatcher()))
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                // 🔥 SADECE OAuth2 endpoint’leri ve login
+                .securityMatcher("/oauth2/**", "/.well-known/**", "/login")
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().authenticated()
+                )
+                .csrf(csrf -> csrf.disable())
                 .formLogin(Customizer.withDefaults())
-                .with(authorizationServerConfigurer, Customizer.withDefaults());
+                .with(authorizationServer, Customizer.withDefaults());
 
         return http.build();
     }
+
 
 
 
