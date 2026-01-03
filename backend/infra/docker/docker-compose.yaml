@@ -3,14 +3,44 @@ version: "3.9"
 services:
   postgres-auth:
     image: postgres:16
+    container_name: postgres-auth
     environment:
       POSTGRES_DB: auth_db
       POSTGRES_USER: auth
       POSTGRES_PASSWORD: auth
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_auth_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres-movie:
+    image: postgres:16
+    container_name: postgres-movie
+    environment:
+      POSTGRES_DB: movie_db
+      POSTGRES_USER: movie
+      POSTGRES_PASSWORD: movie
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_movie_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U movie"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7
+    container_name: redis
     ports:
       - "6379:6379"
+
+volumes:
+  postgres_auth_data:
+  postgres_movie_data:
