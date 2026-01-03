@@ -11,6 +11,23 @@ spring:
         jwt:
           jwk-set-uri: http://localhost:9000/oauth2/jwks
 
+  datasource:
+    url: jdbc:postgresql://localhost:5433/movie_db
+    username: movie
+    password: movie
+    driver-class-name: org.postgresql.Driver
+
+    jpa:
+      hibernate:
+        ddl-auto: validate
+      show-sql: true
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    flyway:
+      enabled: true
+
 management:
   endpoints:
     web:
