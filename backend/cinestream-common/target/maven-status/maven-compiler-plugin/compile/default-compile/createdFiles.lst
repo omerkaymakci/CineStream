@@ -1,0 +1,7 @@
+com/cinestream/common/web/ApiErrorResponse.class
+com/cinestream/common/web/GlobalExceptionHandler.class
+com/cinestream/common/exception/ForbiddenException.class
+com/cinestream/common/exception/ResourceNotFoundException.class
+com/cinestream/common/exception/BaseException.class
+com/cinestream/common/App.class
+com/cinestream/common/exception/AlreadyExistsException.class

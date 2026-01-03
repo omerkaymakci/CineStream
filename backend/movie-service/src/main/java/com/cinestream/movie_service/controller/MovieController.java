@@ -1,21 +1,45 @@
 package com.cinestream.movie_service.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.cinestream.movie_service.domain.Movie;
+import com.cinestream.movie_service.service.MovieService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/movies")
 public class MovieController {
 
-    @GetMapping("/movies")
-    public List<String> getMovies() {
-        return List.of(
-                "Inception",
-                "Interstellar",
-                "The Dark Knight"
-        );
+    private final MovieService service;
+
+    public MovieController(MovieService service) {
+        this.service = service;
+    }
+
+    @PostMapping
+    public Movie create(@RequestBody Movie movie) {
+        return service.create(movie);
+    }
+
+    @GetMapping("/{id}")
+    public Movie get(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
+    @GetMapping
+    public List<Movie> getAll() {
+        return service.getAll();
+    }
+
+    @PutMapping("/{id}")
+    public Movie update(@PathVariable Long id, @RequestBody Movie movie) {
+        return service.update(id, movie);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deactivate(@PathVariable Long id) {
+        service.deactivate(id);
     }
 }
+
 

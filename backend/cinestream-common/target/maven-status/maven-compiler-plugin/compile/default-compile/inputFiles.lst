@@ -1,0 +1,7 @@
+/Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/src/main/java/com/cinestream/common/App.java
+/Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/src/main/java/com/cinestream/common/exception/AlreadyExistsException.java
+/Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/src/main/java/com/cinestream/common/exception/BaseException.java
+/Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/src/main/java/com/cinestream/common/exception/ForbiddenException.java
+/Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/src/main/java/com/cinestream/common/exception/ResourceNotFoundException.java
+/Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/src/main/java/com/cinestream/common/web/ApiErrorResponse.java
+/Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/src/main/java/com/cinestream/common/web/GlobalExceptionHandler.java
