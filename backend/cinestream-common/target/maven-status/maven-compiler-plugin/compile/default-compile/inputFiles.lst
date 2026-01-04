@@ -5,3 +5,6 @@
 /Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/src/main/java/com/cinestream/common/exception/ResourceNotFoundException.java
 /Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/src/main/java/com/cinestream/common/web/ApiErrorResponse.java
 /Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/src/main/java/com/cinestream/common/web/GlobalExceptionHandler.java
+/Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/target/generated-sources/protobuf/java/com/cinestream/common/proto/MovieEvent.java
+/Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/target/generated-sources/protobuf/java/com/cinestream/common/proto/MovieEventOrBuilder.java
+/Users/omerkaymakci/Documents/CineStream/Cine-Stream/backend/cinestream-common/target/generated-sources/protobuf/java/com/cinestream/common/proto/MovieEventOuterClass.java

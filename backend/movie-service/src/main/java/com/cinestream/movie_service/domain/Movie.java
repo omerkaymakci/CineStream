@@ -1,9 +1,24 @@
 package com.cinestream.movie_service.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(
         name = "movies",
@@ -17,79 +32,39 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String title;
-
-    @Column(length = 2000)
     private String description;
-
-    @Column(name = "release_date")
     private LocalDate releaseDate;
-
-    @Column(nullable = false)
     private Integer durationMinutes;
+    private String status;   // DRAFT, PUBLISHED
+    private Boolean active;
+    private String videoUrl;
 
-    @Column(nullable = false)
-    private Boolean active = true;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    protected Movie() {}
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
-    public Movie(String title, Long id, String description, LocalDate releaseDate, Integer durationMinutes, Boolean active) {
-        this.title = title;
-        this.id = id;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.durationMinutes = durationMinutes;
-        this.active = active;
+    // 🟢 Many-to-Many Genre
+    @ManyToMany
+    @JoinTable(
+            name = "movie_genres",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    @Builder.Default
+    private Set<Genre> genres = new HashSet<>();
+
+    public Map<String,Object> toEventPayload() {
+        return Map.of(
+                "movieId", id,
+                "title", title,
+                "status", status,
+                "videoUrl", videoUrl
+        );
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDate getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public Integer getDurationMinutes() {
-        return durationMinutes;
-    }
-
-    public void setDurationMinutes(Integer durationMinutes) {
-        this.durationMinutes = durationMinutes;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
 }
 
 

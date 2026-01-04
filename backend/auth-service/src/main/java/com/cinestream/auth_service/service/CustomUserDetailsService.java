@@ -28,8 +28,13 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
                 .disabled(!user.isEnabled())
-                .authorities("USER")
+                .authorities(
+                        user.getRoles().stream()
+                                .map(role -> "ROLE_" + role.getName())
+                                .toArray(String[]::new)
+                )
                 .build();
     }
 }
+
 
