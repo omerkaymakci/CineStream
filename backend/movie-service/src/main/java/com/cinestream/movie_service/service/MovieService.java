@@ -1,5 +1,7 @@
 package com.cinestream.movie_service.service;
 
+import com.cinestream.common.exception.AlreadyExistsException;
+import com.cinestream.common.exception.ResourceNotFoundException;
 import com.cinestream.movie_service.domain.Movie;
 
 import java.util.List;
@@ -12,8 +14,8 @@ public interface MovieService {
 
     List<Movie> getAll();
 
-    Movie update(Long id, Movie updated);
+    Movie update(Long id, Movie movie);
 
-    void deactivate(Long id);
+    void delete(Long id);
 }
 

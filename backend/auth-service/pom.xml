@@ -85,15 +85,23 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- ✅ CINIESTREAM COMMON (birazdan kullanacağız) -->
-        <!--
         <dependency>
             <groupId>com.cinestream</groupId>
             <artifactId>cinestream-common</artifactId>
             <version>1.0.0</version>
         </dependency>
-        -->
 
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>11.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <version>11.8.0</version>
+        </dependency>
     </dependencies>
 
     <!-- Servise özel dependencyManagement gerekiyorsa -->
