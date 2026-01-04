@@ -1,17 +1,12 @@
 package com.cinestream.api_gateway.config;
 
-import com.cinestream.api_gateway.filter.JwtForwardingFilter;
-import org.springframework.cloud.gateway.route.RouteLocator;
-import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtGrantedAuthoritiesConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @Configuration
@@ -24,50 +19,51 @@ public class SecurityConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
+                        // PUBLIC
                         .pathMatchers(
                                 "/auth/**",
                                 "/oauth2/**",
                                 "/login"
                         ).permitAll()
-                        .pathMatchers("/movies/**").authenticated()
+
+                        // ROLE BASED (örnek)
+                        .pathMatchers("/admin/**").hasRole("ADMIN")
+
+                        // AUTH REQUIRED
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(Customizer.withDefaults())
+                        oauth2.jwt(jwt ->
+                                jwt.jwtAuthenticationConverter(
+                                        reactiveJwtAuthenticationConverter()
+                                )
+                        )
                 )
                 .build();
     }
 
-    @Configuration
-    public class GatewayConfig {
-
-        @Bean
-        public RouteLocator routes(RouteLocatorBuilder builder) {
-            return builder.routes()
-                    .route("movie_service", r -> r.path("/movie-service/**")
-                            .filters(f -> f.stripPrefix(1)) // /movie-service kısmını backend’e iletir
-                            .uri("http://localhost:8081") // movie-service’in portu
-                    )
-                    .route("auth_service", r -> r.path("/auth-service/**")
-                            .filters(f -> f.stripPrefix(1))
-                            .uri("http://localhost:9000")
-                    )
-                    .build();
-        }
-
-    }
-
+    /**
+     * JWT içindeki "roles" claim'ini
+     * ROLE_ADMIN, ROLE_USER formatına çevirir
+     */
     @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter converter = new JwtGrantedAuthoritiesConverter();
-        converter.setAuthoritiesClaimName("roles");
-        converter.setAuthorityPrefix("ROLE_");
+    public ReactiveJwtAuthenticationConverter reactiveJwtAuthenticationConverter() {
 
-        JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
-        jwtConverter.setJwtGrantedAuthoritiesConverter(converter);
+        JwtGrantedAuthoritiesConverter authoritiesConverter =
+                new JwtGrantedAuthoritiesConverter();
+
+        authoritiesConverter.setAuthoritiesClaimName("roles");
+        authoritiesConverter.setAuthorityPrefix("ROLE_");
+
+        ReactiveJwtAuthenticationConverter jwtConverter =
+                new ReactiveJwtAuthenticationConverter();
+
+        jwtConverter.setJwtGrantedAuthoritiesConverter(
+                new ReactiveJwtGrantedAuthoritiesConverterAdapter(authoritiesConverter)
+        );
+
         return jwtConverter;
     }
-
-
 }
+
 
