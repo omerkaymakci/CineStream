@@ -12,7 +12,6 @@
 
     <modules>
         <module>cinestream-common</module>
-        <module>auth-service</module>
         <module>api-gateway</module>
         <module>movie-service</module>
     </modules>
