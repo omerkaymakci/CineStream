@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -12,14 +14,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
+                // Varsayılan olarak CSRF kapalı, gateway arkasında olduğumuz için
+                .csrf(csrf -> csrf.disable())
+                // Tüm endpoint’ler authenticated olmasa bile gateway zaten auth yapıyor
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/movies/**").hasAuthority("SCOPE_openid")
-                        .anyRequest().authenticated()
-                )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt());
+                        .anyRequest().permitAll()  // İstekleri gateway’e bırakıyoruz
+                );
 
         return http.build();
     }
