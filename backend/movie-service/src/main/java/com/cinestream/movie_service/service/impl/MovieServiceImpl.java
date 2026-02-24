@@ -2,9 +2,12 @@ package com.cinestream.movie_service.service.impl;
 
 import com.cinestream.common.exception.AlreadyExistsException;
 import com.cinestream.common.exception.ResourceNotFoundException;
-import com.cinestream.common.*;
 import com.cinestream.common.proto.MovieEvent;
 import com.cinestream.movie_service.domain.Movie;
+import com.cinestream.movie_service.domain.outbox.AggregateType;
+import com.cinestream.movie_service.domain.outbox.OutboxEvent;
+import com.cinestream.movie_service.outbox.OutboxEventRepository;
+import com.cinestream.movie_service.mapper.MovieEventMapper;
 import com.cinestream.movie_service.repository.MovieRepository;
 import com.cinestream.movie_service.service.MovieService;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -19,24 +22,41 @@ public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
     private final KafkaTemplate<String, byte[]> kafkaTemplate;
+    private final OutboxEventRepository outboxEventRepository;
+
     private static final String MOVIE_EVENT_TOPIC = "movie-events";
 
-    public MovieServiceImpl(MovieRepository movieRepository, KafkaTemplate<String, byte[]> kafkaTemplate) {
+    public MovieServiceImpl(MovieRepository movieRepository,
+                            KafkaTemplate<String, byte[]> kafkaTemplate,
+                            OutboxEventRepository outboxEventRepository) {
         this.movieRepository = movieRepository;
         this.kafkaTemplate = kafkaTemplate;
+        this.outboxEventRepository = outboxEventRepository;
     }
 
     @Override
+    @Transactional
     public Movie create(Movie movie) {
+
         movieRepository.findByTitle(movie.getTitle())
-                .ifPresent(m -> { throw AlreadyExistsException.of("Movie"); });
+                .ifPresent(m -> {
+                    throw AlreadyExistsException.of("Movie");
+                });
 
         Movie saved = movieRepository.save(movie);
 
-        sendEvent(saved, "CREATED");
+        OutboxEvent outboxEvent = OutboxEvent.create(
+                AggregateType.MOVIE,
+                saved.getId().toString(),
+                "CREATED",
+                MovieEventMapper.toPayload(saved) // protobuf → byte[]
+        );
+
+        outboxEventRepository.save(outboxEvent);
 
         return saved;
     }
+
 
     @Override
     public Movie getById(Long id) {

@@ -16,6 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private MovieEvent() {
+    eventType_ = 0;
     title_ = "";
     status_ = "";
     videoUrl_ = "";
@@ -41,10 +42,29 @@ private static final long serialVersionUID = 0L;
             com.cinestream.common.proto.MovieEvent.class, com.cinestream.common.proto.MovieEvent.Builder.class);
   }
 
-  public static final int MOVIEID_FIELD_NUMBER = 1;
+  private int bitField0_;
+  public static final int EVENTTYPE_FIELD_NUMBER = 1;
+  private int eventType_ = 0;
+  /**
+   * <code>.com.cinestream.common.proto.MovieEventType eventType = 1;</code>
+   * @return The enum numeric value on the wire for eventType.
+   */
+  @java.lang.Override public int getEventTypeValue() {
+    return eventType_;
+  }
+  /**
+   * <code>.com.cinestream.common.proto.MovieEventType eventType = 1;</code>
+   * @return The eventType.
+   */
+  @java.lang.Override public com.cinestream.common.proto.MovieEventType getEventType() {
+    com.cinestream.common.proto.MovieEventType result = com.cinestream.common.proto.MovieEventType.forNumber(eventType_);
+    return result == null ? com.cinestream.common.proto.MovieEventType.UNRECOGNIZED : result;
+  }
+
+  public static final int MOVIEID_FIELD_NUMBER = 2;
   private long movieId_ = 0L;
   /**
-   * <code>int64 movieId = 1;</code>
+   * <code>int64 movieId = 2;</code>
    * @return The movieId.
    */
   @java.lang.Override
@@ -52,11 +72,11 @@ private static final long serialVersionUID = 0L;
     return movieId_;
   }
 
-  public static final int TITLE_FIELD_NUMBER = 2;
+  public static final int TITLE_FIELD_NUMBER = 3;
   @SuppressWarnings("serial")
   private volatile java.lang.Object title_ = "";
   /**
-   * <code>string title = 2;</code>
+   * <code>string title = 3;</code>
    * @return The title.
    */
   @java.lang.Override
@@ -73,7 +93,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string title = 2;</code>
+   * <code>string title = 3;</code>
    * @return The bytes for title.
    */
   @java.lang.Override
@@ -91,11 +111,11 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int STATUS_FIELD_NUMBER = 3;
+  public static final int STATUS_FIELD_NUMBER = 4;
   @SuppressWarnings("serial")
   private volatile java.lang.Object status_ = "";
   /**
-   * <code>string status = 3;</code>
+   * <code>string status = 4;</code>
    * @return The status.
    */
   @java.lang.Override
@@ -112,7 +132,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string status = 3;</code>
+   * <code>string status = 4;</code>
    * @return The bytes for status.
    */
   @java.lang.Override
@@ -130,11 +150,11 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int VIDEOURL_FIELD_NUMBER = 4;
+  public static final int VIDEOURL_FIELD_NUMBER = 5;
   @SuppressWarnings("serial")
   private volatile java.lang.Object videoUrl_ = "";
   /**
-   * <code>string videoUrl = 4;</code>
+   * <code>string videoUrl = 5;</code>
    * @return The videoUrl.
    */
   @java.lang.Override
@@ -151,7 +171,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string videoUrl = 4;</code>
+   * <code>string videoUrl = 5;</code>
    * @return The bytes for videoUrl.
    */
   @java.lang.Override
@@ -169,6 +189,32 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int OCCURREDAT_FIELD_NUMBER = 6;
+  private com.google.protobuf.Timestamp occurredAt_;
+  /**
+   * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+   * @return Whether the occurredAt field is set.
+   */
+  @java.lang.Override
+  public boolean hasOccurredAt() {
+    return ((bitField0_ & 0x00000001) != 0);
+  }
+  /**
+   * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+   * @return The occurredAt.
+   */
+  @java.lang.Override
+  public com.google.protobuf.Timestamp getOccurredAt() {
+    return occurredAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : occurredAt_;
+  }
+  /**
+   * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+   */
+  @java.lang.Override
+  public com.google.protobuf.TimestampOrBuilder getOccurredAtOrBuilder() {
+    return occurredAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : occurredAt_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -183,17 +229,23 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (eventType_ != com.cinestream.common.proto.MovieEventType.UNKNOWN.getNumber()) {
+      output.writeEnum(1, eventType_);
+    }
     if (movieId_ != 0L) {
-      output.writeInt64(1, movieId_);
+      output.writeInt64(2, movieId_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(title_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, title_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, title_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(status_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, status_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, status_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(videoUrl_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, videoUrl_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, videoUrl_);
+    }
+    if (((bitField0_ & 0x00000001) != 0)) {
+      output.writeMessage(6, getOccurredAt());
     }
     getUnknownFields().writeTo(output);
   }
@@ -204,18 +256,26 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
+    if (eventType_ != com.cinestream.common.proto.MovieEventType.UNKNOWN.getNumber()) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(1, eventType_);
+    }
     if (movieId_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt64Size(1, movieId_);
+        .computeInt64Size(2, movieId_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(title_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, title_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, title_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(status_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, status_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, status_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(videoUrl_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, videoUrl_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, videoUrl_);
+    }
+    if (((bitField0_ & 0x00000001) != 0)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, getOccurredAt());
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -232,6 +292,7 @@ private static final long serialVersionUID = 0L;
     }
     com.cinestream.common.proto.MovieEvent other = (com.cinestream.common.proto.MovieEvent) obj;
 
+    if (eventType_ != other.eventType_) return false;
     if (getMovieId()
         != other.getMovieId()) return false;
     if (!getTitle()
@@ -240,6 +301,11 @@ private static final long serialVersionUID = 0L;
         .equals(other.getStatus())) return false;
     if (!getVideoUrl()
         .equals(other.getVideoUrl())) return false;
+    if (hasOccurredAt() != other.hasOccurredAt()) return false;
+    if (hasOccurredAt()) {
+      if (!getOccurredAt()
+          .equals(other.getOccurredAt())) return false;
+    }
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -251,6 +317,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
+    hash = (37 * hash) + EVENTTYPE_FIELD_NUMBER;
+    hash = (53 * hash) + eventType_;
     hash = (37 * hash) + MOVIEID_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         getMovieId());
@@ -260,6 +328,10 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getStatus().hashCode();
     hash = (37 * hash) + VIDEOURL_FIELD_NUMBER;
     hash = (53 * hash) + getVideoUrl().hashCode();
+    if (hasOccurredAt()) {
+      hash = (37 * hash) + OCCURREDAT_FIELD_NUMBER;
+      hash = (53 * hash) + getOccurredAt().hashCode();
+    }
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -379,22 +451,34 @@ private static final long serialVersionUID = 0L;
 
     // Construct using com.cinestream.common.proto.MovieEvent.newBuilder()
     private Builder() {
-
+      maybeForceBuilderInitialization();
     }
 
     private Builder(
         com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
-
+      maybeForceBuilderInitialization();
+    }
+    private void maybeForceBuilderInitialization() {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
+        getOccurredAtFieldBuilder();
+      }
     }
     @java.lang.Override
     public Builder clear() {
       super.clear();
       bitField0_ = 0;
+      eventType_ = 0;
       movieId_ = 0L;
       title_ = "";
       status_ = "";
       videoUrl_ = "";
+      occurredAt_ = null;
+      if (occurredAtBuilder_ != null) {
+        occurredAtBuilder_.dispose();
+        occurredAtBuilder_ = null;
+      }
       return this;
     }
 
@@ -429,17 +513,28 @@ private static final long serialVersionUID = 0L;
     private void buildPartial0(com.cinestream.common.proto.MovieEvent result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.movieId_ = movieId_;
+        result.eventType_ = eventType_;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
-        result.title_ = title_;
+        result.movieId_ = movieId_;
       }
       if (((from_bitField0_ & 0x00000004) != 0)) {
-        result.status_ = status_;
+        result.title_ = title_;
       }
       if (((from_bitField0_ & 0x00000008) != 0)) {
+        result.status_ = status_;
+      }
+      if (((from_bitField0_ & 0x00000010) != 0)) {
         result.videoUrl_ = videoUrl_;
       }
+      int to_bitField0_ = 0;
+      if (((from_bitField0_ & 0x00000020) != 0)) {
+        result.occurredAt_ = occurredAtBuilder_ == null
+            ? occurredAt_
+            : occurredAtBuilder_.build();
+        to_bitField0_ |= 0x00000001;
+      }
+      result.bitField0_ |= to_bitField0_;
     }
 
     @java.lang.Override
@@ -486,23 +581,29 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(com.cinestream.common.proto.MovieEvent other) {
       if (other == com.cinestream.common.proto.MovieEvent.getDefaultInstance()) return this;
+      if (other.eventType_ != 0) {
+        setEventTypeValue(other.getEventTypeValue());
+      }
       if (other.getMovieId() != 0L) {
         setMovieId(other.getMovieId());
       }
       if (!other.getTitle().isEmpty()) {
         title_ = other.title_;
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         onChanged();
       }
       if (!other.getStatus().isEmpty()) {
         status_ = other.status_;
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         onChanged();
       }
       if (!other.getVideoUrl().isEmpty()) {
         videoUrl_ = other.videoUrl_;
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         onChanged();
+      }
+      if (other.hasOccurredAt()) {
+        mergeOccurredAt(other.getOccurredAt());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -531,25 +632,37 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             case 8: {
-              movieId_ = input.readInt64();
+              eventType_ = input.readEnum();
               bitField0_ |= 0x00000001;
               break;
             } // case 8
-            case 18: {
-              title_ = input.readStringRequireUtf8();
+            case 16: {
+              movieId_ = input.readInt64();
               bitField0_ |= 0x00000002;
               break;
-            } // case 18
+            } // case 16
             case 26: {
-              status_ = input.readStringRequireUtf8();
+              title_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000004;
               break;
             } // case 26
             case 34: {
-              videoUrl_ = input.readStringRequireUtf8();
+              status_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000008;
               break;
             } // case 34
+            case 42: {
+              videoUrl_ = input.readStringRequireUtf8();
+              bitField0_ |= 0x00000010;
+              break;
+            } // case 42
+            case 50: {
+              input.readMessage(
+                  getOccurredAtFieldBuilder().getBuilder(),
+                  extensionRegistry);
+              bitField0_ |= 0x00000020;
+              break;
+            } // case 50
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -567,9 +680,62 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
+    private int eventType_ = 0;
+    /**
+     * <code>.com.cinestream.common.proto.MovieEventType eventType = 1;</code>
+     * @return The enum numeric value on the wire for eventType.
+     */
+    @java.lang.Override public int getEventTypeValue() {
+      return eventType_;
+    }
+    /**
+     * <code>.com.cinestream.common.proto.MovieEventType eventType = 1;</code>
+     * @param value The enum numeric value on the wire for eventType to set.
+     * @return This builder for chaining.
+     */
+    public Builder setEventTypeValue(int value) {
+      eventType_ = value;
+      bitField0_ |= 0x00000001;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.com.cinestream.common.proto.MovieEventType eventType = 1;</code>
+     * @return The eventType.
+     */
+    @java.lang.Override
+    public com.cinestream.common.proto.MovieEventType getEventType() {
+      com.cinestream.common.proto.MovieEventType result = com.cinestream.common.proto.MovieEventType.forNumber(eventType_);
+      return result == null ? com.cinestream.common.proto.MovieEventType.UNRECOGNIZED : result;
+    }
+    /**
+     * <code>.com.cinestream.common.proto.MovieEventType eventType = 1;</code>
+     * @param value The eventType to set.
+     * @return This builder for chaining.
+     */
+    public Builder setEventType(com.cinestream.common.proto.MovieEventType value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000001;
+      eventType_ = value.getNumber();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.com.cinestream.common.proto.MovieEventType eventType = 1;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearEventType() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      eventType_ = 0;
+      onChanged();
+      return this;
+    }
+
     private long movieId_ ;
     /**
-     * <code>int64 movieId = 1;</code>
+     * <code>int64 movieId = 2;</code>
      * @return The movieId.
      */
     @java.lang.Override
@@ -577,23 +743,23 @@ private static final long serialVersionUID = 0L;
       return movieId_;
     }
     /**
-     * <code>int64 movieId = 1;</code>
+     * <code>int64 movieId = 2;</code>
      * @param value The movieId to set.
      * @return This builder for chaining.
      */
     public Builder setMovieId(long value) {
 
       movieId_ = value;
-      bitField0_ |= 0x00000001;
+      bitField0_ |= 0x00000002;
       onChanged();
       return this;
     }
     /**
-     * <code>int64 movieId = 1;</code>
+     * <code>int64 movieId = 2;</code>
      * @return This builder for chaining.
      */
     public Builder clearMovieId() {
-      bitField0_ = (bitField0_ & ~0x00000001);
+      bitField0_ = (bitField0_ & ~0x00000002);
       movieId_ = 0L;
       onChanged();
       return this;
@@ -601,7 +767,7 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object title_ = "";
     /**
-     * <code>string title = 2;</code>
+     * <code>string title = 3;</code>
      * @return The title.
      */
     public java.lang.String getTitle() {
@@ -617,7 +783,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string title = 2;</code>
+     * <code>string title = 3;</code>
      * @return The bytes for title.
      */
     public com.google.protobuf.ByteString
@@ -634,7 +800,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string title = 2;</code>
+     * <code>string title = 3;</code>
      * @param value The title to set.
      * @return This builder for chaining.
      */
@@ -642,22 +808,22 @@ private static final long serialVersionUID = 0L;
         java.lang.String value) {
       if (value == null) { throw new NullPointerException(); }
       title_ = value;
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
     /**
-     * <code>string title = 2;</code>
+     * <code>string title = 3;</code>
      * @return This builder for chaining.
      */
     public Builder clearTitle() {
       title_ = getDefaultInstance().getTitle();
-      bitField0_ = (bitField0_ & ~0x00000002);
+      bitField0_ = (bitField0_ & ~0x00000004);
       onChanged();
       return this;
     }
     /**
-     * <code>string title = 2;</code>
+     * <code>string title = 3;</code>
      * @param value The bytes for title to set.
      * @return This builder for chaining.
      */
@@ -666,14 +832,14 @@ private static final long serialVersionUID = 0L;
       if (value == null) { throw new NullPointerException(); }
       checkByteStringIsUtf8(value);
       title_ = value;
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
 
     private java.lang.Object status_ = "";
     /**
-     * <code>string status = 3;</code>
+     * <code>string status = 4;</code>
      * @return The status.
      */
     public java.lang.String getStatus() {
@@ -689,7 +855,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string status = 3;</code>
+     * <code>string status = 4;</code>
      * @return The bytes for status.
      */
     public com.google.protobuf.ByteString
@@ -706,7 +872,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string status = 3;</code>
+     * <code>string status = 4;</code>
      * @param value The status to set.
      * @return This builder for chaining.
      */
@@ -714,22 +880,22 @@ private static final long serialVersionUID = 0L;
         java.lang.String value) {
       if (value == null) { throw new NullPointerException(); }
       status_ = value;
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000008;
       onChanged();
       return this;
     }
     /**
-     * <code>string status = 3;</code>
+     * <code>string status = 4;</code>
      * @return This builder for chaining.
      */
     public Builder clearStatus() {
       status_ = getDefaultInstance().getStatus();
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000008);
       onChanged();
       return this;
     }
     /**
-     * <code>string status = 3;</code>
+     * <code>string status = 4;</code>
      * @param value The bytes for status to set.
      * @return This builder for chaining.
      */
@@ -738,14 +904,14 @@ private static final long serialVersionUID = 0L;
       if (value == null) { throw new NullPointerException(); }
       checkByteStringIsUtf8(value);
       status_ = value;
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000008;
       onChanged();
       return this;
     }
 
     private java.lang.Object videoUrl_ = "";
     /**
-     * <code>string videoUrl = 4;</code>
+     * <code>string videoUrl = 5;</code>
      * @return The videoUrl.
      */
     public java.lang.String getVideoUrl() {
@@ -761,7 +927,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string videoUrl = 4;</code>
+     * <code>string videoUrl = 5;</code>
      * @return The bytes for videoUrl.
      */
     public com.google.protobuf.ByteString
@@ -778,7 +944,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string videoUrl = 4;</code>
+     * <code>string videoUrl = 5;</code>
      * @param value The videoUrl to set.
      * @return This builder for chaining.
      */
@@ -786,22 +952,22 @@ private static final long serialVersionUID = 0L;
         java.lang.String value) {
       if (value == null) { throw new NullPointerException(); }
       videoUrl_ = value;
-      bitField0_ |= 0x00000008;
+      bitField0_ |= 0x00000010;
       onChanged();
       return this;
     }
     /**
-     * <code>string videoUrl = 4;</code>
+     * <code>string videoUrl = 5;</code>
      * @return This builder for chaining.
      */
     public Builder clearVideoUrl() {
       videoUrl_ = getDefaultInstance().getVideoUrl();
-      bitField0_ = (bitField0_ & ~0x00000008);
+      bitField0_ = (bitField0_ & ~0x00000010);
       onChanged();
       return this;
     }
     /**
-     * <code>string videoUrl = 4;</code>
+     * <code>string videoUrl = 5;</code>
      * @param value The bytes for videoUrl to set.
      * @return This builder for chaining.
      */
@@ -810,9 +976,130 @@ private static final long serialVersionUID = 0L;
       if (value == null) { throw new NullPointerException(); }
       checkByteStringIsUtf8(value);
       videoUrl_ = value;
-      bitField0_ |= 0x00000008;
+      bitField0_ |= 0x00000010;
       onChanged();
       return this;
+    }
+
+    private com.google.protobuf.Timestamp occurredAt_;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> occurredAtBuilder_;
+    /**
+     * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+     * @return Whether the occurredAt field is set.
+     */
+    public boolean hasOccurredAt() {
+      return ((bitField0_ & 0x00000020) != 0);
+    }
+    /**
+     * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+     * @return The occurredAt.
+     */
+    public com.google.protobuf.Timestamp getOccurredAt() {
+      if (occurredAtBuilder_ == null) {
+        return occurredAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : occurredAt_;
+      } else {
+        return occurredAtBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+     */
+    public Builder setOccurredAt(com.google.protobuf.Timestamp value) {
+      if (occurredAtBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        occurredAt_ = value;
+      } else {
+        occurredAtBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000020;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+     */
+    public Builder setOccurredAt(
+        com.google.protobuf.Timestamp.Builder builderForValue) {
+      if (occurredAtBuilder_ == null) {
+        occurredAt_ = builderForValue.build();
+      } else {
+        occurredAtBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000020;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+     */
+    public Builder mergeOccurredAt(com.google.protobuf.Timestamp value) {
+      if (occurredAtBuilder_ == null) {
+        if (((bitField0_ & 0x00000020) != 0) &&
+          occurredAt_ != null &&
+          occurredAt_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
+          getOccurredAtBuilder().mergeFrom(value);
+        } else {
+          occurredAt_ = value;
+        }
+      } else {
+        occurredAtBuilder_.mergeFrom(value);
+      }
+      if (occurredAt_ != null) {
+        bitField0_ |= 0x00000020;
+        onChanged();
+      }
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+     */
+    public Builder clearOccurredAt() {
+      bitField0_ = (bitField0_ & ~0x00000020);
+      occurredAt_ = null;
+      if (occurredAtBuilder_ != null) {
+        occurredAtBuilder_.dispose();
+        occurredAtBuilder_ = null;
+      }
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+     */
+    public com.google.protobuf.Timestamp.Builder getOccurredAtBuilder() {
+      bitField0_ |= 0x00000020;
+      onChanged();
+      return getOccurredAtFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+     */
+    public com.google.protobuf.TimestampOrBuilder getOccurredAtOrBuilder() {
+      if (occurredAtBuilder_ != null) {
+        return occurredAtBuilder_.getMessageOrBuilder();
+      } else {
+        return occurredAt_ == null ?
+            com.google.protobuf.Timestamp.getDefaultInstance() : occurredAt_;
+      }
+    }
+    /**
+     * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+        getOccurredAtFieldBuilder() {
+      if (occurredAtBuilder_ == null) {
+        occurredAtBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                getOccurredAt(),
+                getParentForChildren(),
+                isClean());
+        occurredAt_ = null;
+      }
+      return occurredAtBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(
