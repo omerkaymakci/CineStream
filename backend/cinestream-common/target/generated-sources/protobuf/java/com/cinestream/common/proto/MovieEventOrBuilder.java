@@ -8,44 +8,70 @@ public interface MovieEventOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int64 movieId = 1;</code>
+   * <code>.com.cinestream.common.proto.MovieEventType eventType = 1;</code>
+   * @return The enum numeric value on the wire for eventType.
+   */
+  int getEventTypeValue();
+  /**
+   * <code>.com.cinestream.common.proto.MovieEventType eventType = 1;</code>
+   * @return The eventType.
+   */
+  com.cinestream.common.proto.MovieEventType getEventType();
+
+  /**
+   * <code>int64 movieId = 2;</code>
    * @return The movieId.
    */
   long getMovieId();
 
   /**
-   * <code>string title = 2;</code>
+   * <code>string title = 3;</code>
    * @return The title.
    */
   java.lang.String getTitle();
   /**
-   * <code>string title = 2;</code>
+   * <code>string title = 3;</code>
    * @return The bytes for title.
    */
   com.google.protobuf.ByteString
       getTitleBytes();
 
   /**
-   * <code>string status = 3;</code>
+   * <code>string status = 4;</code>
    * @return The status.
    */
   java.lang.String getStatus();
   /**
-   * <code>string status = 3;</code>
+   * <code>string status = 4;</code>
    * @return The bytes for status.
    */
   com.google.protobuf.ByteString
       getStatusBytes();
 
   /**
-   * <code>string videoUrl = 4;</code>
+   * <code>string videoUrl = 5;</code>
    * @return The videoUrl.
    */
   java.lang.String getVideoUrl();
   /**
-   * <code>string videoUrl = 4;</code>
+   * <code>string videoUrl = 5;</code>
    * @return The bytes for videoUrl.
    */
   com.google.protobuf.ByteString
       getVideoUrlBytes();
+
+  /**
+   * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+   * @return Whether the occurredAt field is set.
+   */
+  boolean hasOccurredAt();
+  /**
+   * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+   * @return The occurredAt.
+   */
+  com.google.protobuf.Timestamp getOccurredAt();
+  /**
+   * <code>.google.protobuf.Timestamp occurredAt = 6;</code>
+   */
+  com.google.protobuf.TimestampOrBuilder getOccurredAtOrBuilder();
 }
