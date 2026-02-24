@@ -1,0 +1,13 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: video-service
+
+cloudflare:
+  r2:
+    bucket: media-storage
+    endpoint: https://a35e038b62ce4e86b844088c1c0ada53.r2.cloudflarestorage.com
+    access-key: a59f6bf253ce8fa11681c7eaaf816edf
+    secret-key: 122ef46274d9353ab999fb72b23b972810106b3ebb2d24af7ef5a5e50e69af09

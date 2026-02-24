@@ -29,21 +29,28 @@ public final class MovieEventOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\021movie_event.proto\022\033com.cinestream.comm" +
-      "on.proto\"N\n\nMovieEvent\022\017\n\007movieId\030\001 \001(\003\022" +
-      "\r\n\005title\030\002 \001(\t\022\016\n\006status\030\003 \001(\t\022\020\n\010videoU" +
-      "rl\030\004 \001(\tB\037\n\033com.cinestream.common.protoP" +
-      "\001b\006proto3"
+      "on.proto\032\037google/protobuf/timestamp.prot" +
+      "o\"\276\001\n\nMovieEvent\022>\n\teventType\030\001 \001(\0162+.co" +
+      "m.cinestream.common.proto.MovieEventType" +
+      "\022\017\n\007movieId\030\002 \001(\003\022\r\n\005title\030\003 \001(\t\022\016\n\006stat" +
+      "us\030\004 \001(\t\022\020\n\010videoUrl\030\005 \001(\t\022.\n\noccurredAt" +
+      "\030\006 \001(\0132\032.google.protobuf.Timestamp*D\n\016Mo" +
+      "vieEventType\022\013\n\007UNKNOWN\020\000\022\013\n\007CREATED\020\001\022\013" +
+      "\n\007UPDATED\020\002\022\013\n\007DELETED\020\003B\037\n\033com.cinestre" +
+      "am.common.protoP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.google.protobuf.TimestampProto.getDescriptor(),
         });
     internal_static_com_cinestream_common_proto_MovieEvent_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_com_cinestream_common_proto_MovieEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_cinestream_common_proto_MovieEvent_descriptor,
-        new java.lang.String[] { "MovieId", "Title", "Status", "VideoUrl", });
+        new java.lang.String[] { "EventType", "MovieId", "Title", "Status", "VideoUrl", "OccurredAt", });
+    com.google.protobuf.TimestampProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
