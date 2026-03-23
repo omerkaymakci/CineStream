@@ -49,7 +49,7 @@ public class MovieServiceImpl implements MovieService {
                 AggregateType.MOVIE,
                 saved.getId().toString(),
                 "CREATED",
-                MovieEventMapper.toPayload(saved) // protobuf → byte[]
+                MovieEventMapper.toPayload(saved)
         );
 
         outboxEventRepository.save(outboxEvent);
