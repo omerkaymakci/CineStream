@@ -27,7 +27,6 @@ public class OutboxEvent {
     /**
      * Protobuf event serialized as JSON or bytes (bytea / jsonb)
      */
-    @Lob
     @Column(nullable = false)
     private byte[] payload;
 
@@ -38,6 +37,12 @@ public class OutboxEvent {
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
+
+    @Column(name = "retry_count", nullable = false)
+    private int retryCount = 0;
+
+    @Column(name = "processed_at")
+    private Instant processedAt;
 
     protected OutboxEvent() {
         // JPA
@@ -109,6 +114,50 @@ public class OutboxEvent {
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public int getRetryCount() {
+        return retryCount;
+    }
+
+    public Instant getProcessedAt() {
+        return processedAt;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setAggregateType(AggregateType aggregateType) {
+        this.aggregateType = aggregateType;
+    }
+
+    public void setAggregateId(String aggregateId) {
+        this.aggregateId = aggregateId;
+    }
+
+    public void setRetryCount(int retryCount) {
+        this.retryCount = retryCount;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public void setPayload(byte[] payload) {
+        this.payload = payload;
+    }
+
+    public void setStatus(OutboxStatus status) {
+        this.status = status;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setProcessedAt(Instant processedAt) {
+        this.processedAt = processedAt;
     }
 }
 
