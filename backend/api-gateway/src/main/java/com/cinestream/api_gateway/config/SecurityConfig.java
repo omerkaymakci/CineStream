@@ -43,16 +43,24 @@ public class SecurityConfig {
 
                         .pathMatchers("/auth/**", "/oauth2/**", "/login").permitAll()
 
+                        // Movie endpoints
                         .pathMatchers(HttpMethod.GET, "/movie-service/movies/**")
                         .hasAnyRole("USER", "ADMIN")
-
                         .pathMatchers(HttpMethod.POST, "/movie-service/movies")
                         .hasRole("ADMIN")
-
                         .pathMatchers(HttpMethod.PUT, "/movie-service/movies/**")
                         .hasRole("ADMIN")
-
                         .pathMatchers(HttpMethod.DELETE, "/movie-service/movies/**")
+                        .hasRole("ADMIN")
+
+                        // Genre endpoints
+                        .pathMatchers(HttpMethod.GET, "/genres/**")
+                        .hasAnyRole("USER", "ADMIN")
+                        .pathMatchers(HttpMethod.POST, "/genres")
+                        .hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.PUT, "/genres/**")
+                        .hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.DELETE, "/genres/**")
                         .hasRole("ADMIN")
 
                         .anyExchange().authenticated()
