@@ -13,7 +13,6 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
 
-
   datasource:
     url: jdbc:postgresql://localhost:5434/video_db
     username: video
@@ -34,10 +33,25 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
 
-
 cloudflare:
   r2:
     bucket: media-storage
     endpoint: https://a35e038b62ce4e86b844088c1c0ada53.r2.cloudflarestorage.com
     access-key: a59f6bf253ce8fa11681c7eaaf816edf
     secret-key: 122ef46274d9353ab999fb72b23b972810106b3ebb2d24af7ef5a5e50e69af09
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      cloudflareService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 30s
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 5
+
+  retry:
+    instances:
+      cloudflareRetry:
+        maxAttempts: 3
+        waitDuration: 2s
