@@ -46,12 +46,17 @@ public final class MovieEventMapper {
     /* ---------- Common builder ---------- */
 
     private static MovieEvent.Builder baseBuilder(Movie movie) {
+        // Protobuf string setters reject null, so coalesce optional fields.
         return MovieEvent.newBuilder()
                 .setMovieId(movie.getId())
-                .setTitle(movie.getTitle())
-                .setStatus(movie.getStatus())
-                .setVideoUrl(movie.getVideoUrl())
+                .setTitle(nullSafe(movie.getTitle()))
+                .setStatus(nullSafe(movie.getStatus()))
+                .setVideoUrl(nullSafe(movie.getVideoUrl()))
                 .setOccurredAt(now());
+    }
+
+    private static String nullSafe(String value) {
+        return value != null ? value : "";
     }
 
     private static Timestamp now() {
