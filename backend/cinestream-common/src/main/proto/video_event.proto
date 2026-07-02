@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package com.cinestream.common.proto;
+
+option java_package = "com.cinestream.common.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+
+enum VideoEventType {
+  VIDEO_UNKNOWN = 0;
+  VIDEO_READY = 1;
+  VIDEO_FAILED = 2;
+}
+
+// Emitted by video-service after it finishes (or fails) uploading a movie's
+// video to storage, so movie-service can update the movie accordingly.
+message VideoEvent {
+  VideoEventType eventType = 1;
+
+  int64 movieId = 2;
+  string videoKey = 3;   // storage key/location in Cloudflare R2
+  string status = 4;     // READY / FAILED
+
+  google.protobuf.Timestamp occurredAt = 5;
+}
