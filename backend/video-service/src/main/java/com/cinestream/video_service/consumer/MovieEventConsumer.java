@@ -1,8 +1,8 @@
 package com.cinestream.video_service.consumer;
 
 import com.cinestream.common.proto.MovieEvent;
-import com.cinestream.video_service.config.KafkaConfig;
 import com.cinestream.video_service.service.CloudFlareService;
+import com.cinestream.video_service.service.VideoUploadProcessor;
 import com.cinestream.video_service.service.VideoUploadRecordService;
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,7 @@ public class MovieEventConsumer {
 
     private final CloudFlareService cloudFlareService;
     private final VideoUploadRecordService uploadRecordService;
+    private final VideoUploadProcessor videoUploadProcessor;
 
     private static final Logger log = LoggerFactory.getLogger(MovieEventConsumer.class);
 
@@ -37,10 +38,12 @@ public class MovieEventConsumer {
         }
 
         // Video’yu Cloudflare’a yükle
-        cloudFlareService.upload(videoUrl, movieId);
+        String videoKey = cloudFlareService.upload(videoUrl, movieId);
 
-        // İşlem tamamlandı → record ekle
-        uploadRecordService.saveVideoUploadRecord(movieId, "UPLOADED", videoUrl);
+        // Kayıt + outbox event'i tek transaction'da yaz (transactional outbox).
+        // Outbox publisher bunu "video-events" topic'ine iletip movie-service'in
+        // filmi PUBLISHED yapmasını sağlar.
+        videoUploadProcessor.completeUpload(movieId, videoUrl, videoKey);
 
         log.info("Movie processed successfully, movieId=" + movieId);
 

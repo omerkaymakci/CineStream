@@ -1,4 +1,4 @@
-package com.cinestream.movie_service.domain.outbox;
+package com.cinestream.video_service.domain.outbox;
 
 public enum OutboxStatus {
     NEW,

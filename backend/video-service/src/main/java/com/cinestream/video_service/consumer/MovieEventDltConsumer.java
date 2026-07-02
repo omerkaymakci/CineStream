@@ -2,6 +2,7 @@ package com.cinestream.video_service.consumer;
 
 import com.cinestream.common.proto.MovieEvent;
 import com.cinestream.video_service.service.CloudFlareService;
+import com.cinestream.video_service.service.VideoUploadProcessor;
 import com.cinestream.video_service.service.VideoUploadRecordService;
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ public class MovieEventDltConsumer {
 
     private final CloudFlareService cloudFlareService;
     private final VideoUploadRecordService uploadRecordService;
+    private final VideoUploadProcessor videoUploadProcessor;
 
     private static final Logger log = LoggerFactory.getLogger(MovieEventDltConsumer.class);
 
@@ -34,12 +36,12 @@ public class MovieEventDltConsumer {
         }
         try {
             // Tekrar upload denemesi
-            cloudFlareService.upload(videoUrl, movieId);
-            uploadRecordService.saveVideoUploadRecord(movieId, "UPLOADED", videoUrl);
+            String videoKey = cloudFlareService.upload(videoUrl, movieId);
+            videoUploadProcessor.completeUpload(movieId, videoUrl, videoKey);
             log.info("[DLT Replay] Movie processed successfully, movieId={}", movieId);
         } catch (Exception e) {
-            // Upload başarısız olursa DB’ye FAILED olarak kaydet
-            uploadRecordService.saveVideoUploadRecord(movieId, "FAILED", videoUrl);
+            // Upload başarısız olursa FAILED kaydet + FAILED event yay
+            videoUploadProcessor.failUpload(movieId, videoUrl);
             log.error("[DLT Replay] Failed to process MovieEvent, movieId={}, reason={}", movieId, e.getMessage());
         }
     }
