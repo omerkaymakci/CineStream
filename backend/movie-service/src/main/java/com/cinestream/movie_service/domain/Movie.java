@@ -40,6 +40,10 @@ public class Movie {
     private Boolean active;
     private String videoUrl;
 
+    // Base64 data URL of the poster image (stored in DB).
+    @Column(name = "poster_image", columnDefinition = "TEXT")
+    private String posterImage;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

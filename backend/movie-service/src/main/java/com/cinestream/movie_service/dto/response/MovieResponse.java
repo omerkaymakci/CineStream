@@ -17,6 +17,7 @@ public class MovieResponse {
     private Integer durationMinutes;
     private String status;
     private String videoUrl;
+    private String posterImage;
 
     public static MovieResponse fromEntity(Movie movie) {
         return MovieResponse.builder()
@@ -26,6 +27,7 @@ public class MovieResponse {
                 .durationMinutes(movie.getDurationMinutes())
                 .status(movie.getStatus())
                 .videoUrl(movie.getVideoUrl())
+                .posterImage(movie.getPosterImage())
                 .build();
     }
 }
