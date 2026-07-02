@@ -7,10 +7,24 @@ interface MoviePosterProps {
 }
 
 /**
- * The backend has no artwork, so we render a stable gradient tile with the
- * movie's initials as a stand-in poster.
+ * Shows the movie's uploaded poster when present; otherwise falls back to a
+ * stable gradient tile with the movie's initials.
  */
 export function MoviePoster({ movie, className = '' }: MoviePosterProps) {
+  if (movie.posterImage) {
+    return (
+      <div className={`relative overflow-hidden ${className}`}>
+        <img
+          src={movie.posterImage}
+          alt={movie.title}
+          className="h-full w-full object-cover"
+          loading="lazy"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+      </div>
+    )
+  }
+
   return (
     <div
       className={`relative flex items-center justify-center overflow-hidden ${className}`}

@@ -14,6 +14,8 @@ export interface Movie {
   durationMinutes: number | null
   status: MovieStatus
   videoUrl: string | null
+  /** Base64 data URL of the poster image, or null. */
+  posterImage: string | null
 }
 
 /** Mirrors MovieRequest expected by movie-service. */
@@ -25,6 +27,7 @@ export interface MovieRequest {
   active?: boolean
   releaseDate?: string // ISO yyyy-MM-dd
   videoUrl?: string
+  posterImage?: string // base64 data URL
   genreIds?: number[]
 }
 

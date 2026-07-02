@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Modal } from '@/components/Modal'
 import { Spinner } from '@/components/Spinner'
 import { useGenres } from '@/hooks/useGenres'
+import { fileToPosterDataUrl } from '@/lib/image'
 import type { Movie, MovieRequest, MovieStatus } from '@/types'
 
 interface MovieFormModalProps {
@@ -31,6 +32,9 @@ export function MovieFormModal({
   const [status, setStatus] = useState<MovieStatus>('DRAFT')
   const [videoUrl, setVideoUrl] = useState('')
   const [genreIds, setGenreIds] = useState<number[]>([])
+  const [posterImage, setPosterImage] = useState<string | undefined>(undefined)
+  const [posterError, setPosterError] = useState<string | null>(null)
+  const [posterLoading, setPosterLoading] = useState(false)
 
   // Reset fields whenever the modal opens (for a fresh create or edit).
   useEffect(() => {
@@ -43,7 +47,33 @@ export function MovieFormModal({
     setStatus(initial?.status ?? 'DRAFT')
     setVideoUrl(initial?.videoUrl ?? '')
     setGenreIds([])
+    setPosterImage(initial?.posterImage ?? undefined)
+    setPosterError(null)
   }, [open, initial])
+
+  const handlePosterChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setPosterError(null)
+    if (!file.type.startsWith('image/')) {
+      setPosterError('Lütfen bir görsel dosyası seç.')
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setPosterError('Görsel 5MB’dan küçük olmalı.')
+      return
+    }
+    try {
+      setPosterLoading(true)
+      setPosterImage(await fileToPosterDataUrl(file))
+    } catch {
+      setPosterError('Görsel işlenemedi.')
+    } finally {
+      setPosterLoading(false)
+    }
+  }
 
   const toggleGenre = (id: number) => {
     setGenreIds((prev) =>
@@ -60,6 +90,7 @@ export function MovieFormModal({
       durationMinutes: durationMinutes ? Number(durationMinutes) : undefined,
       status,
       videoUrl: videoUrl.trim() || undefined,
+      posterImage: posterImage || undefined,
       genreIds: genreIds.length ? genreIds : undefined,
     })
   }
@@ -91,6 +122,54 @@ export function MovieFormModal({
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Kısa özet"
           />
+        </div>
+
+        <div>
+          <label className={labelClass}>Poster (görsel)</label>
+          <div className="flex items-start gap-4">
+            <div className="h-36 w-24 shrink-0 overflow-hidden rounded-lg border border-border bg-surface-2">
+              {posterImage ? (
+                <img
+                  src={posterImage}
+                  alt="Poster önizleme"
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-2xl text-muted">
+                  🎞️
+                </div>
+              )}
+            </div>
+            <div className="flex-1 space-y-2">
+              <div className="flex items-center gap-3">
+                <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm transition hover:border-brand">
+                  {posterLoading && <Spinner className="size-4" />}
+                  {posterImage ? 'Görseli değiştir' : 'Görsel seç'}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handlePosterChange}
+                  />
+                </label>
+                {posterImage && (
+                  <button
+                    type="button"
+                    onClick={() => setPosterImage(undefined)}
+                    className="text-sm text-muted transition hover:text-red-400"
+                  >
+                    Kaldır
+                  </button>
+                )}
+              </div>
+              {posterError && (
+                <p className="text-sm text-red-400">{posterError}</p>
+              )}
+              <p className="text-xs text-muted">
+                JPG/PNG · otomatik küçültülür · max 5MB
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
