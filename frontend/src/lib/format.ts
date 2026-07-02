@@ -20,6 +20,20 @@ export function gradientFor(seed: string | number): string {
   return `linear-gradient(135deg, hsl(${h1} 55% 22%), hsl(${h2} 60% 12%))`
 }
 
+/**
+ * Deterministic placeholder rating (7.0–9.6) derived from the movie id.
+ * NOTE: the backend has no rating field; this is display-only mock data.
+ */
+export function mockRating(seed: string | number): string {
+  const str = String(seed)
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  const rating = 7 + (Math.abs(hash) % 27) / 10
+  return rating.toFixed(1)
+}
+
 export function initials(title: string): string {
   return title
     .split(/\s+/)

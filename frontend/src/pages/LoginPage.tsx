@@ -64,12 +64,12 @@ export function LoginPage() {
 
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-white text-bg">
-            <svg viewBox="0 0 24 24" className="ml-0.5 size-6" fill="currentColor">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </div>
-          <h1 className="text-2xl font-bold">CineStream'e giriş yap</h1>
+          <img
+            src="/logo.png"
+            alt="CineStream"
+            className="mx-auto mb-4 h-24 w-auto"
+          />
+          <h1 className="text-2xl font-bold">Giriş yap</h1>
           <p className="mt-1 text-sm text-muted">Devam etmek için hesabına giriş yap</p>
         </div>
 

@@ -6,6 +6,7 @@ import { HomePage } from '@/pages/HomePage'
 import { LoginPage } from '@/pages/LoginPage'
 import { MovieDetailPage } from '@/pages/MovieDetailPage'
 import { WatchPage } from '@/pages/WatchPage'
+import { ListemPage } from '@/pages/ListemPage'
 import { AdminMoviesPage } from '@/pages/admin/AdminMoviesPage'
 import { AdminGenresPage } from '@/pages/admin/AdminGenresPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
@@ -32,6 +33,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <WatchPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/listem"
+              element={
+                <ProtectedRoute>
+                  <ListemPage />
                 </ProtectedRoute>
               }
             />

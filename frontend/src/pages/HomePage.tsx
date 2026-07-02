@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useMemo } from 'react'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '@/auth/useAuth'
 import { useMovies } from '@/hooks/useMovies'
 import { MovieCard } from '@/components/MovieCard'
@@ -17,45 +17,89 @@ export function HomePage() {
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
+  const loggedOut = initialized && !authenticated
+
   return (
-    <div>
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
       {/* ── Hero ──────────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden rounded-2xl border border-border">
+        {/* Abstract backdrop (real movie posters are copyrighted). */}
         <div
-          className="absolute inset-0 -z-10 opacity-70"
+          className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(60% 55% at 50% 0%, rgba(37,99,235,0.20), transparent)',
+              'radial-gradient(120% 120% at 100% 0%, rgba(139,92,246,0.28), transparent 55%), radial-gradient(120% 120% at 90% 100%, rgba(37,99,235,0.30), transparent 55%), #0b1120',
           }}
         />
-        <div className="mx-auto max-w-7xl px-4 py-24 text-center sm:px-6 sm:py-28">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl">
-            CineStream'e Hoş Geldin
+        <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/85 to-transparent" />
+
+        <div className="relative max-w-xl px-8 py-16 sm:px-12 sm:py-20">
+          <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+            CineStream'e
+            <br />
+            <span className="bg-gradient-to-r from-violet-400 to-blue-500 bg-clip-text text-transparent">
+              Hoş Geldin
+            </span>
           </h1>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-muted">
-            Favori filmlerini çevrimiçi izle
+          <p className="mt-4 text-lg text-zinc-300">
+            Favori filmlerini çevrimiçi izle, keyfini çıkar.
           </p>
           <button
-            onClick={
-              initialized && !authenticated
-                ? () => navigate('/login')
-                : scrollToCatalog
-            }
-            className="mt-8 rounded-lg bg-brand px-7 py-3 text-base font-semibold text-white shadow-lg shadow-brand/25 transition hover:bg-brand-hover"
+            onClick={loggedOut ? () => navigate('/login') : scrollToCatalog}
+            className="mt-7 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-violet-500 to-blue-600 px-6 py-3 font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:opacity-90"
           >
-            {initialized && !authenticated ? 'Giriş yap ve izle' : 'Filmlere Göz At'}
+            <svg viewBox="0 0 24 24" className="size-5" fill="currentColor">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            {loggedOut ? 'Giriş yap ve izle' : 'Filmlere Göz At'}
           </button>
         </div>
       </section>
 
       {/* ── Popular Movies ────────────────────────────────── */}
-      <section id="catalog" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
+      <section id="catalog" className="mt-10">
         {authenticated ? (
           <Catalog />
         ) : (
-          initialized && <LoggedOutPrompt onLogin={() => navigate('/login')} />
+          loggedOut && <LoggedOutPrompt onLogin={() => navigate('/login')} />
         )}
       </section>
+    </div>
+  )
+}
+
+function SectionHeader({
+  query,
+  showSeeAll,
+}: {
+  query?: string
+  showSeeAll?: boolean
+}) {
+  return (
+    <div className="mb-6 flex items-end justify-between gap-4">
+      <div>
+        <h2 className="flex items-center gap-2 text-2xl font-bold">
+          <svg viewBox="0 0 24 24" className="size-5 text-brand" fill="currentColor">
+            <path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17.8 5.9 20.4l1.5-6.8L2.2 9l6.9-.7L12 2z" />
+          </svg>
+          {query ? `“${query}” için sonuçlar` : 'Popüler Filmler'}
+        </h2>
+        <p className="mt-1 text-sm text-muted">
+          {query ? 'Aramanla eşleşen filmler' : 'Sizin için seçilmiş en beğenilen filmler'}
+        </p>
+      </div>
+
+      {showSeeAll && (
+        <Link
+          to="/"
+          className="inline-flex shrink-0 items-center gap-1 rounded-full border border-border px-4 py-1.5 text-sm font-medium text-zinc-200 transition hover:border-brand hover:text-white"
+        >
+          Tümünü Gör
+          <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m9 6 6 6-6 6" />
+          </svg>
+        </Link>
+      )}
     </div>
   )
 }
@@ -63,7 +107,7 @@ export function HomePage() {
 function LoggedOutPrompt({ onLogin }: { onLogin: () => void }) {
   return (
     <>
-      <h2 className="mb-6 text-2xl font-bold">Popüler Filmler</h2>
+      <SectionHeader />
       <EmptyState
         icon="🍿"
         title="Filmleri görmek için giriş yap"
@@ -83,7 +127,8 @@ function LoggedOutPrompt({ onLogin }: { onLogin: () => void }) {
 
 function Catalog() {
   const { data: movies, isLoading, isError, refetch } = useMovies()
-  const [query, setQuery] = useState('')
+  const [searchParams] = useSearchParams()
+  const query = searchParams.get('q') ?? ''
 
   const filtered = useMemo(() => {
     if (!movies) return []
@@ -94,27 +139,10 @@ function Catalog() {
 
   return (
     <>
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-2xl font-bold">Popüler Filmler</h2>
-        <div className="relative w-full sm:w-72">
-          <svg
-            className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <circle cx="11" cy="11" r="7" />
-            <path d="m21 21-4.3-4.3" />
-          </svg>
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Film ara…"
-            className="w-full rounded-lg border border-border bg-surface py-2 pl-9 pr-3 text-sm outline-none transition focus:border-brand"
-          />
-        </div>
-      </div>
+      <SectionHeader
+        query={query || undefined}
+        showSeeAll={!query && filtered.length > 0}
+      />
 
       {isLoading && (
         <div className="flex justify-center py-24">
