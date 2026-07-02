@@ -23,15 +23,14 @@ export function HomePage() {
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
       {/* ── Hero ──────────────────────────────────────────── */}
       <section className="relative overflow-hidden rounded-2xl border border-border">
-        {/* Abstract backdrop (real movie posters are copyrighted). */}
+        {/* Background image from public/hero-bg.png */}
         <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(120% 120% at 100% 0%, rgba(139,92,246,0.28), transparent 55%), radial-gradient(120% 120% at 90% 100%, rgba(37,99,235,0.30), transparent 55%), #0b1120',
-          }}
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: 'url(/hero-bg.png)' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/85 to-transparent" />
+        {/* Dark on the left for readable text, clearer posters on the right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-bg/90 via-bg/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-bg/20 to-transparent" />
 
         <div className="relative max-w-xl px-8 py-16 sm:px-12 sm:py-20">
           <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
