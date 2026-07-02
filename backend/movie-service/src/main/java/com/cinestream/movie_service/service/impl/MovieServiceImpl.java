@@ -77,6 +77,7 @@ public class MovieServiceImpl implements MovieService {
         existing.setTitle(movie.getTitle());
         existing.setDescription(movie.getDescription());
         existing.setVideoUrl(movie.getVideoUrl());
+        existing.setPosterImage(movie.getPosterImage());
 
         Movie updated = movieRepository.save(existing);
 

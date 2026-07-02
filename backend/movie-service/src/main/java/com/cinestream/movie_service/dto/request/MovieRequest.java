@@ -23,6 +23,7 @@ public class MovieRequest {
     private Boolean active;  // opsiyonel, default true
     private LocalDate releaseDate; // opsiyonel, default today
     private String videoUrl;
+    private String posterImage; // base64 data URL
     private Set<Long> genreIds; // sadece genre ID'lerini gönderiyoruz
 
     public Movie toEntity(Set<Genre> genres) {
@@ -34,6 +35,7 @@ public class MovieRequest {
                 .active(this.active != null ? this.active : true)
                 .releaseDate(this.releaseDate != null ? this.releaseDate : LocalDate.now())
                 .videoUrl(this.videoUrl)
+                .posterImage(this.posterImage)
                 .genres(genres != null ? genres : new HashSet<>())
                 .build();
     }
