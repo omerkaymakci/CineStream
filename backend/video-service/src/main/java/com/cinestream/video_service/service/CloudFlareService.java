@@ -5,6 +5,7 @@ public interface CloudFlareService {
      * Verilen video URL'sini Cloudflare R2/S3'e upload eder
      * @param videoUrl video kaynağı URL
      * @param movieId hangi film ile ilişkili
+     * @return depolamadaki nesne anahtarı (storage key)
      */
-    void upload(String videoUrl, Long movieId);
+    String upload(String videoUrl, Long movieId);
 }

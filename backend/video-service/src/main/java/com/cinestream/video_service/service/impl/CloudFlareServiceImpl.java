@@ -26,7 +26,7 @@ public class CloudFlareServiceImpl implements CloudFlareService {
      * @param movieId Movie ID
      */
     @Override
-    public void upload(String videoPathOrUrl, Long movieId) {
+    public String upload(String videoPathOrUrl, Long movieId) {
         try (InputStream in = openStream(videoPathOrUrl)) {
             MultipartFile file = new InMemoryMultipartFile(
                     "file",
@@ -37,6 +37,7 @@ public class CloudFlareServiceImpl implements CloudFlareService {
 
             String key = videoStorageService.uploadVideo(file);
             System.out.println("Video uploaded for movieId=" + movieId + ", key=" + key);
+            return key;
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to upload video for movieId=" + movieId, e);
